@@ -53,7 +53,12 @@ function Execute-Operation {
             Write-Host "Porcentaje de espacio de intercambio utilizado: $porcentajeSwapUsado%"
         }
         5 {
-            Write-Output "5"
+            # Obtener el número de conexiones de red activas en estado ESTABLISHED
+            $establecidas = (Get-NetTCPConnection | Where-Object {$_.State -eq "Established"}).Count
+
+            # Mostrar el resultado
+            Write-Host "Numero de conexiones de red activas en estado ESTABLISHED: $establecidas"
+
         }
         9 {
             Write-Output "Admin session finished successfully."
