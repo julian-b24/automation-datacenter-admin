@@ -24,6 +24,11 @@ get_memory_and_swap() {
     echo "Porcentaje de swap en uso: ${swap_percentage:-0}%"
 }
 
+get_active_network () {
+    active_connections=$(netstat | grep -c ESTABLISHED)
+    echo "Number of active connections: $active_connections"
+}
+
 
 print_menu () {
     clear
@@ -43,11 +48,11 @@ execute_operation () {
         2)  echo "2";;
         3)  get_largest_file;;
         4)  get_memory_and_swap;;
-        5)  echo "5";;
+        5)  get_active_network;;
         9)  echo "Admin session finished successfully.";;
         *)  echo "Not a valid option. Try again.";;
     esac
-	read -p "Presione cualquier tecla para continuar..." -n1 -s
+	read -p "Enter any key to continue..." -n1 -s
 }
 
 (( option=0 ))
