@@ -21,16 +21,43 @@ function Execute-Operation {
     switch ($Operation) {
         1 {
             # Show the 5 processes that are consuming the most CPU
-            Get-Process | sort CPU -Descending | select -First 5 | ft -Property Id, ProcessName, CPU -AutoSize
+            Get-Process | Sort-Object CPU -Descending | Select-Object -First 5 | Format-Table -Property Id, ProcessName, CPU -AutoSize
         }
         2 {
             Display-FileSystems
         }
         3 {
-            Write-Output "3"
+            # Get the largest file in a filesystem or disk
+            $path = Read-Host "Enter the path to the filesystem or disk"
+            Write-Output "Path entered: $path"
+            try {
+                $largestFile = Get-ChildItem -Path $path -Recurse | Sort-Object -Property Length -Descending | Select-Object -First 1
+                if ($largestFile) {
+                    Write-Output "The largest file is: $($largestFile.FullName) with size $($largestFile.Length) bytes"
+                } else {
+                    Write-Output "No files found in the specified path."
+                }
+            } catch {
+                Write-Output "An error occurred: $_"
+            }
         }
         4 {
-            Write-Output "4"
+            # Obtener información de memoria y espacio de intercambio
+            $memoria = Get-WmiObject Win32_OperatingSystem
+            $memoriaTotal = $memoria.TotalVisibleMemorySize
+            $memoriaLibre = $memoria.FreePhysicalMemory
+            $memoriaSwapTotal = $memoria.TotalSwapSpaceSize
+            $memoriaSwapLibre = $memoria.FreeSpaceInPagingFiles
+
+            # Calcular porcentaje de memoria utilizada y de espacio de intercambio utilizado
+            $porcentajeMemoriaUsada = ($memoriaTotal - $memoriaLibre) / $memoriaTotal * 100
+            $porcentajeSwapUsado = ($memoriaSwapTotal - $memoriaSwapLibre) / $memoriaSwapTotal * 100
+
+            # Mostrar resultados
+            Write-Host "Memoria libre: $memoriaLibre bytes"
+            Write-Host "Porcentaje de memoria utilizada: $porcentajeMemoriaUsada%"
+            Write-Host "Espacio de intercambio en uso: $memoriaSwapLibre bytes"
+            Write-Host "Porcentaje de espacio de intercambio utilizado: $porcentajeSwapUsado%"
         }
         5 {
             Write-Output "5"
