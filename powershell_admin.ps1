@@ -35,7 +35,22 @@ function Execute-Operation {
             }
         }
         4 {
-            Write-Output "4"
+            # Obtener información de memoria y espacio de intercambio
+            $memoria = Get-WmiObject Win32_OperatingSystem
+            $memoriaTotal = $memoria.TotalVisibleMemorySize
+            $memoriaLibre = $memoria.FreePhysicalMemory
+            $memoriaSwapTotal = $memoria.TotalSwapSpaceSize
+            $memoriaSwapLibre = $memoria.FreeSpaceInPagingFiles
+
+            # Calcular porcentaje de memoria utilizada y de espacio de intercambio utilizado
+            $porcentajeMemoriaUsada = ($memoriaTotal - $memoriaLibre) / $memoriaTotal * 100
+            $porcentajeSwapUsado = ($memoriaSwapTotal - $memoriaSwapLibre) / $memoriaSwapTotal * 100
+
+            # Mostrar resultados
+            Write-Host "Memoria libre: $memoriaLibre bytes"
+            Write-Host "Porcentaje de memoria utilizada: $porcentajeMemoriaUsada%"
+            Write-Host "Espacio de intercambio en uso: $memoriaSwapLibre bytes"
+            Write-Host "Porcentaje de espacio de intercambio utilizado: $porcentajeSwapUsado%"
         }
         5 {
             Write-Output "5"
