@@ -4,6 +4,11 @@ get_consumming_processes () {
     ps aux --sort %cpu | head -6
 }
 
+get_connected_filesystems () {
+    df -h > temp.txt
+    awk '{print $1 FS $2 FS $4}' temp.txt
+}
+
 get_largest_file () {
     read -p "Ingrese el path del disco o filesystem: " path
     find "$path" -type f -exec ls -s {} + | sort -n -r | head -n 1
@@ -45,7 +50,7 @@ execute_operation () {
     (( operation = $1 ))
     case $operation in
         1)  get_consumming_processes;;
-        2)  echo "2";;
+        2)  get_connected_filesystems;;
         3)  get_largest_file;;
         4)  get_memory_and_swap;;
         5)  get_active_network;;
