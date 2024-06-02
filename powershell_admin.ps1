@@ -1,3 +1,10 @@
+function Display-FileSystems {
+    gdr -PSProvider 'FileSystem' | 
+    ft name, 
+       @{n='Free (GB)'; e={[Math]::round($_.Free / 1GB, 2 )} },
+       @{n='Size (MB)'; e={[Math]::round($_.Free + $_.Used, 2 )} }
+}
+
 function Print-Menu {
     Write-Output "1. Show the 5 processes that are consuming the most CPU"
     Write-Output "2. Display the connected filesystems and disks"
@@ -17,7 +24,7 @@ function Execute-Operation {
             Get-Process | sort CPU -Descending | select -First 5 | ft -Property Id, ProcessName, CPU -AutoSize
         }
         2 {
-            Write-Output "2"
+            Display-FileSystems
         }
         3 {
             Write-Output "3"
