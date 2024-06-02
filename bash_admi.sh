@@ -7,10 +7,11 @@ get_consumming_processes () {
 get_connected_filesystems () {
     df -h > temp.txt
     awk '{print $1 FS $2 FS $4}' temp.txt
+    rm temp.txt
 }
 
 get_largest_file () {
-    read -p "Ingrese el path del disco o filesystem: " path
+    read -p "Enter the disk path or filesystem: " path
     find "$path" -type f -exec ls -s {} + | sort -n -r | head -n 1
 }
 
@@ -24,14 +25,14 @@ get_memory_and_swap() {
     swap_used=$((swap_total - swap_free))
     swap_percentage=$(awk "BEGIN {printf \"%.2f\", ($swap_used/$swap_total)*100}")
 
-    echo "Memoria libre: ${mem_free:-0} bytes"
-    echo "Espacio de swap en uso: ${swap_used:-0} bytes"
-    echo "Porcentaje de swap en uso: ${swap_percentage:-0}%"
+    echo "Free Space: ${mem_free:-0} bytes"
+    echo "Used swap memory: ${swap_used:-0} bytes"
+    echo "Used swap percentage: ${swap_percentage:-0}%"
 }
 
 get_active_network () {
     active_connections=$(netstat | grep -c ESTABLISHED)
-    echo "Number of active connections: $active_connections"
+    echo "Number of active connections ESTABLISHED: $active_connections"
 }
 
 

@@ -54,17 +54,17 @@ function Execute-Operation {
             $porcentajeSwapUsado = ($memoriaSwapTotal - $memoriaSwapLibre) / $memoriaSwapTotal * 100
 
             # Mostrar resultados
-            Write-Host "Memoria libre: $memoriaLibre bytes"
-            Write-Host "Porcentaje de memoria utilizada: $porcentajeMemoriaUsada%"
-            Write-Host "Espacio de intercambio en uso: $memoriaSwapLibre bytes"
-            Write-Host "Porcentaje de espacio de intercambio utilizado: $porcentajeSwapUsado%"
+            Write-Host "Free Space:: $memoriaLibre bytes"
+            Write-Host "Percentage of used memory: $porcentajeMemoriaUsada%"
+            Write-Host "Used swap memory: $memoriaSwapLibre bytes"
+            Write-Host "Used swap percentage: $porcentajeSwapUsado%"
         }
         5 {
             # Obtener el número de conexiones de red activas en estado ESTABLISHED
             $establecidas = (Get-NetTCPConnection | Where-Object {$_.State -eq "Established"}).Count
 
             # Mostrar el resultado
-            Write-Host "Numero de conexiones de red activas en estado ESTABLISHED: $establecidas"
+            Write-Host "Number of active connections ESTABLISHED: $establecidas"
 
         }
         9 {
