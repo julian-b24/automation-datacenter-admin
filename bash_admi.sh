@@ -1,5 +1,9 @@
 #!/bin/bash
 
+get_consumming_processes () {
+    ps aux --sort %cpu | head -6
+}
+
 print_menu () {
     echo "1. Show the 5 processes that are consuming the most CPU"
     echo "2. Display the connected filesystems and disks"
@@ -14,7 +18,7 @@ execute_operation () {
     (( operation = $1 ))
     case $operation in
         1)
-            echo "1"
+            get_consumming_processes
         ;;
         2)
             echo "2"

@@ -13,7 +13,8 @@ function Execute-Operation {
     )
     switch ($Operation) {
         1 {
-            Write-Output "1"
+            # Show the 5 processes that are consuming the most CPU
+            Get-Process | sort CPU -Descending | select -First 5 | ft -Property Id, ProcessName, CPU -AutoSize
         }
         2 {
             Write-Output "2"
