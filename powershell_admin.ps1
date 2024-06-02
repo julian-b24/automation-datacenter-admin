@@ -14,13 +14,25 @@ function Execute-Operation {
     switch ($Operation) {
         1 {
             # Show the 5 processes that are consuming the most CPU
-            Get-Process | sort CPU -Descending | select -First 5 | ft -Property Id, ProcessName, CPU -AutoSize
+            Get-Process | Sort-Object CPU -Descending | Select-Object -First 5 | Format-Table -Property Id, ProcessName, CPU -AutoSize
         }
         2 {
             Write-Output "2"
         }
         3 {
-            Write-Output "3"
+            # Get the largest file in a filesystem or disk
+            $path = Read-Host "Enter the path to the filesystem or disk"
+            Write-Output "Path entered: $path"
+            try {
+                $largestFile = Get-ChildItem -Path $path -Recurse | Sort-Object -Property Length -Descending | Select-Object -First 1
+                if ($largestFile) {
+                    Write-Output "The largest file is: $($largestFile.FullName) with size $($largestFile.Length) bytes"
+                } else {
+                    Write-Output "No files found in the specified path."
+                }
+            } catch {
+                Write-Output "An error occurred: $_"
+            }
         }
         4 {
             Write-Output "4"
